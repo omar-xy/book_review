@@ -13,13 +13,18 @@ class BookReview:
         self.table = table
         
         
-    def get_book_rating(self, book_name):
-        records = self.table.all()
+    def get_book_rating(self, sort="ASC", max_records=10):
+        rating  = ["rating"]
+        # for rating in rating:
+        if sort == "DESC":
+            rating = ["-rating"]
+        table = self.table.all(sort=rating, max_records=max_records)
+        # records = self.table.all()
         
-        for record in records:
-            if record['fields']['Book'] == book_name:
-                return record['fields']['rating']
-        return None
+        # for record in records:
+        #     if record['fields']['Book'] == book_name:
+        #         return record['fields']['rating']
+        return table
     
     def add_book_rating(self, book_name, rating, notes=None):
         records = self.table.all()
@@ -36,5 +41,6 @@ class BookReview:
 
 if __name__ == '__main__':
     br = BookReview()
-    print(br.get_book_rating('Otaraki Book'))
-    print(br.add_book_rating('AOT', 5, 'This is a great book'))
+    i = br.get_book_rating(sort="ASC", max_records=1)
+    print(i)  
+    # print(br.add_book_rating('AOT', 5, 'This is a great book'))
